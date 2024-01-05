@@ -405,7 +405,7 @@ package WordSegmenter {
               (solution, tag, markovModel.evaluateSegmentation(tag))
             }
 
-            var bestSolutions = mutable.MutableList[List[String]]()
+            var bestSolutions = mutable.ArrayDeque[List[String]]()
             var bestSoFar = (-1.0, 0)
             for (solAndScore <- solutionScores) {
               if (bestSoFar <= solAndScore._3) {
