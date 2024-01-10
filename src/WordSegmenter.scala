@@ -431,7 +431,7 @@ package WordSegmenter {
               }
             }
             var best = tupleMaxMatch((bestSegs zip bestSolutions).toSet)
-            println(best._2.mkString("_") + ',' + best._1.map(_.toString).mkString("_"))
+            println(word + ',' + best._2.mkString("_") + ',' + best._1.map(_.toString).mkString("_"))
           }
         }
 
