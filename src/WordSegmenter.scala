@@ -367,7 +367,7 @@ package WordSegmenter {
     }
 
     def tupleMaxMatch(segmentations : Set[(List[MarkovMorphemeType.Value], List[String])]) : (List[MarkovMorphemeType.Value], List[String]) = {
-      val scores = for( sol <- segmentations) yield (sol._1.length, sol)
+      val scores = for( sol <- segmentations) yield (sol._2.map(_.length), sol)
       if (scores.isEmpty) {
         (List[MarkovMorphemeType.Value](), List[String]())
       }
