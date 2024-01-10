@@ -366,6 +366,17 @@ package WordSegmenter {
       }
     }
 
+    def tupleMaxMatch(segmentations : Set[(List[MarkovMorphemeType.Value], List[String])]) : (List[MarkovMorphemeType.Value], List[String]) = {
+      val scores = for( sol <- segmentations) yield (sol._1.length, sol)
+      if (scores.isEmpty) {
+        (List[MarkovMorphemeType.Value](), List[String]())
+      }
+      else {
+        val best = scores.max
+        best._2
+      }
+    }
+
     def main(args: Array[String]) = {
 
       val arguments: List[Char] = if (args.length < 3) List() else args(2).toCharArray.toList
@@ -406,17 +417,21 @@ package WordSegmenter {
             }
 
             var bestSolutions = mutable.ArrayDeque[List[String]]()
+            var bestSegs = mutable.ArrayDeque[List[MarkovMorphemeType.Value]]()
             var bestSoFar = (-1.0, 0)
             for (solAndScore <- solutionScores) {
               if (bestSoFar <= solAndScore._3) {
                 if (bestSoFar < solAndScore._3) {
                   bestSoFar = solAndScore._3
                   bestSolutions.clear()
+                  bestSegs.clear()
                 }
                 bestSolutions += solAndScore._1
+                bestSegs += solAndScore._2
               }
             }
-            println(word + "\t" + solutionString(List(maximalMatch(bestSolutions.toSet))))
+            var best = tupleMaxMatch((bestSegs zip bestSolutions).toSet)
+            println(best._2.mkString("_") + ',' + best._1.map(_.toString).mkString("_"))
           }
         }
 
